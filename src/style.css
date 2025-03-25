@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css?family=Exo:700|Exo:400');
+ /* 1. Use a more-intuitive box-sizing model */
+ *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  /* 2. Remove default margin */
+  * {
+    margin: 0;
+  }
+  
+  body {
+    /* 3. Add accessible line-height */
+    line-height: 1.5;
+    /* 4. Improve text rendering */
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Exo', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+  }
+  
+  /* 5. Improve media defaults */
+  img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+  }
+  
+  /* 6. Inherit fonts for form controls */
+  input, button, textarea, select {
+    font: inherit;
+  }
+  
+  /* 7. Avoid text overflows */
+  p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+  }
+  
+  /* 8. Improve line wrapping */
+  p {
+    text-wrap: pretty;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+    font-weight: 700;
+  }
+
+  html {
+    font-size: 16px;
+  }
+
+  .taskify-main {
+    --error: #ff0000;
+    --delete: #c94848;
+    --priority-high: #ff000050;
+    --priority-medium: #4949c450;
+    --priority-low: #39c43950;
+    --snackbar-bg: #4ed54e;
+    --status-bg: #d9aba150;
+  }
+
+  .taskify-main.light {
+    --text: #121b21;
+    --border: #121b21;
+    --group-shadow: #121b21;
+    --shadow: #121b2150;
+    --background: #e0e3e6;
+    --primary: #508db7;
+    --secondary: #d9aba1;
+    --accent: #bfca7c;
+    --overlay: #121b2170;
+    --dropdown-bg: #ffffff;
+    --subtask-bg: #ffffff;
+    --input-bg: #508db730;
+  }
+
+  .taskify-main.dark {
+    --text: #e0e3e6;
+    --border: #e0e3e6;
+    --shadow: #d9aba150;
+    --group-shadow: #ced2d5;
+    --background: #121b21;
+    --primary: #4785ae;
+    --secondary: #5e3126;
+    --accent: #788235;
+    --overlay: #e0e3e650;
+    --dropdown-bg: #000000;
+    --input-bg: #4785ae30;
+  }
+
+  @media(max-width: 425px) {
+    html {
+      font-size: 14px;
+    }
+  }
