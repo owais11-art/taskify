@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 import TasksView from "../views/TasksView.vue";
 import TaskView from "../views/TaskView.vue";
+import ExplorerView from "../views/ExplorerView.vue";
 
 const routes = [
     {
         path: '/',
-        name: "tasks",
-        component: TasksView
+        name: "explorer",
+        component: ExplorerView
     },
     {
         path: '/task/:id',

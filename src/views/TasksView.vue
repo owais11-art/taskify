@@ -2,10 +2,12 @@
     <div class="task-header">
         <button class="create-group" @click="showCreateGroupModal">Create New Group</button>
     </div>
+
     <GroupedTasks
-        v-for="group in store.taskGroups"
+        v-for="(groupTasks, group) in store.groupedTasks"
         :key="group"
-        :group="group"
+        :group="`${group}`"
+        :tasks="groupTasks"
         @create-task="createTask"
         @edit-task="editTask"
         @show-task="showTask"

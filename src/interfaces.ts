@@ -3,7 +3,6 @@ export interface ITask {
     title: string,
     description?: string,
     status: string,
-    group: string
     priority: string,
     startDate: string,
     endDate: string,
@@ -20,20 +19,58 @@ export interface ISubtasksProp {
     subTasks: ISubtask[],
     subTasksOf: string,
     isDisabled?: boolean,
-    isCreateTaskView?: boolean
+    isCreateTaskView?: boolean,
+    group: string
 };
 
 export interface ITaskProps {
-    task: ITask
+    task: ITask,
+    currentGroup: string
 };
 
-export interface IGroupedTask {
-    group: string,
+export interface IGroupedTasks {
+    id: string,
+    name: string,
     tasks: ITask[]
 };
 
+export interface IBoard {
+    id: string,
+    name: string,
+    type: "board",
+    groups: IGroupedTasks[]
+};
+
+export interface IFolder {
+    id: string,
+    name: string,
+    type: "folder",
+    children: (IBoard | IFolder)[]
+};
+
+/*
+    {
+        id: "12345",
+        name: "My Space",
+        type: "space",
+        children: [
+            {
+                id: "09876",
+                name: "My Board",
+                type: "board",
+                groups: {
+                    Tasks: [],
+                    Home: [],
+                    College: []
+                }
+            }
+        ]
+    }
+*/
+
 export interface IGroupedTaskProps {
-    group: string
+    group: string,
+    tasks: ITask[]
 };
 
 export interface IInputProps {
@@ -56,8 +93,32 @@ export interface IContextMenuProps {
     nested?: boolean
 };
 
+export interface ISidebarProps {
+    folders: IFolder,
+    isNested?: boolean
+};
+
+export interface ISidebarItemProps {
+    item: IFolder | IBoard,
+    isActive: boolean
+};
+
+export interface IModal {
+    type: string,
+    params: TGeneralObject
+};
+
+export interface ICreateModalProps {
+    label: string,
+    placeholder: string
+};
+
 export type TGeneralObject = {[key: string] : any};
 
 export type TDateNumerals = {[key: number] : string};
 
 export type TSnackbarMessageType = "success" | "error" | "warning";
+
+export type TNode = (IFolder | IBoard);
+
+export type TReturnNode = TNode | undefined;

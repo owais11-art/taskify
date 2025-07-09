@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-    import { Ref, ref, watch } from 'vue';
+    import { onMounted, Ref, ref, watch } from 'vue';
     import { IContextMenuProps } from '../interfaces';
 
     const { isMenuVisible, nested = false } = defineProps<IContextMenuProps>();
@@ -13,14 +13,17 @@
     const menuItems = ref();
     const menuItemsXOffset: Ref<number> = ref(12);
 
-    watch(() => isMenuVisible, () => {
+    function positionContextMenu() {
         if(!isMenuVisible) return;
         const menuItemsDimension: DOMRect = menuItems.value.getBoundingClientRect();
         if(innerWidth - menuItemsDimension.left < menuItemsDimension.width) {
-            console.log(innerWidth, menuItemsDimension)
             menuItemsXOffset.value = 12 - menuItemsDimension.width;
         }
-    }, {flush: "post"});
+    }
+
+    watch(() => isMenuVisible, positionContextMenu, { flush: "post" });
+
+    onMounted(positionContextMenu);
 </script>
 
 <style scoped>

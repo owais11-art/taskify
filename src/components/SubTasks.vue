@@ -53,13 +53,13 @@
     import darkThemeCheckIcon from "../assets/icons/check-dark.svg";
     import lightThemeChevIcon from "../assets/icons/chevron.svg";
     import darkThemeChevIcon from "../assets/icons/chevron-dark.svg";
-    import { ISubtasksProp, TGeneralObject } from "../interfaces";
+    import { ISubtask, ISubtasksProp, TGeneralObject } from "../interfaces";
     import { ref, Ref } from "vue";
     import { useThemeStore } from "../store/theme";
     import { useTasksStore } from "../store/tasks";
     import { useSnackbarStore } from "../store/snackbar";
 
-    const { subTasks, subTasksOf, isDisabled = false, isCreateTaskView = false } = defineProps<ISubtasksProp>();
+    const { subTasks, subTasksOf, isDisabled = false, isCreateTaskView = false, group } = defineProps<ISubtasksProp>();
     const emit = defineEmits(["createSubTask", "updateSubTask", "deleteSubTask", "toggleCompleteSubtask"]);
 
     const theme = useThemeStore().theme;
@@ -104,7 +104,7 @@
                 id: crypto.randomUUID(),
                 title: subTaskInput.value,
                 isCompleted: false
-            }, subTasksOf);
+            }, subTasksOf, group);
         }
         subTaskInput.value = "";
         snackbar.setMessage("Sub Task Created");
@@ -116,15 +116,15 @@
             emit("updateSubTask", {
                 id,
                 title: target.value,
-                isCompleted: false
+                isCompleted: subTasks.find((item: ISubtask) => item.id === id)?.isCompleted
             });
         }
         else {
             store.updateSubTask({
                 id,
                 title: target.value,
-                isCompleted: false
-            }, subTasksOf);
+                isCompleted: subTasks.find((item: ISubtask) => item.id === id)?.isCompleted
+            }, subTasksOf, group);
         }
         snackbar.setMessage("Sub Task Updated");
     }
@@ -134,7 +134,7 @@
             emit("deleteSubTask", id);
         }
         else {
-            store.deleteSubTask(id, subTasksOf);
+            store.deleteSubTask(id, subTasksOf, group);
         }
     }
 
@@ -144,7 +144,7 @@
             emit("toggleCompleteSubtask", id);
             return;
         }
-        store.toggleCompleteSubTask(id, subTasksOf);
+        store.toggleCompleteSubTask(id, subTasksOf, group);
     }
 </script>
 

@@ -40,9 +40,9 @@
                                 :is-menu-visible="showGroup"
                                 nested
                             >
-                                <template  v-for="group in groups" :key="group">
+                                <template  v-for="group in store.groupNames" :key="group">
                                     <div class="menu-item"
-                                        v-if="group !== task.group"
+                                        v-if="group !== currentGroup"
                                         @click="() => moveTask(group, task.id)"
                                     >
                                         <p>{{ group }}</p>
@@ -58,6 +58,7 @@
             <SubTasks
                 :sub-tasks="task.subTasks ?? []"
                 :sub-tasks-of="task.id"
+                :group="currentGroup"
             />
         </div>
     </div>
@@ -90,7 +91,7 @@
     defineOptions({
         inheritAttrs: false
     });
-    const { task } = defineProps<ITaskProps>();
+    const { task, currentGroup } = defineProps<ITaskProps>();
     const emit = defineEmits(["editTask"]);
 
     const store = useTasksStore();
@@ -129,7 +130,7 @@
         }
     }
 
-    const groups = store.taskGroups;
+    const groups = store.groupNames;
 
     const showMenu: Ref<boolean> = ref(false);
     const showGroup: Ref<boolean> = ref(false);
@@ -153,7 +154,7 @@
     }
 
     function deleteTask() {
-        store.removeTask(task.id);
+        store.removeTask(task.id, currentGroup);
         showModal.value = false;
     }
 
@@ -165,7 +166,7 @@
         showModal.value = true;
     }
     function moveTask(group: string, id: string) {
-        store.moveTo(group, id);
+        store.moveTo(group, currentGroup, id);
     }
 </script>
 

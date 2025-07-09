@@ -37,6 +37,7 @@
                 v-for="task in tasks"
                 :key="task.id"
                 :task="task"
+                :current-group="group"
                 @click="() => showTask(task.id)"
                 @edit-task="() => editTask(task.id)"
             />
@@ -61,9 +62,9 @@
     import Task from './Task.vue';
     import ContextMenu from './ContextMenu.vue';
     import DeleteModal from './DeleteModal.vue';
-    import { IGroupedTaskProps, ITask, TGeneralObject } from '../interfaces';
+    import { IGroupedTaskProps, TGeneralObject } from '../interfaces';
     import { useThemeStore } from '../store/theme';
-    import { computed, ref, Ref } from 'vue';
+    import { ref, Ref } from 'vue';
     import lightThemeMenuDots from "../assets/icons/menu-dots.svg";
     import darkThemeMenuDots from "../assets/icons/menu-dots-dark.svg";
     import lightThemeEditIcon from '../assets/icons/edit.svg';
@@ -72,7 +73,7 @@
     import darkThemeDeleteIcon from '../assets/icons/delete-dark.svg';
     import { useSnackbarStore } from '../store/snackbar';
 
-    const { group } = defineProps<IGroupedTaskProps>();
+    const { group, tasks } = defineProps<IGroupedTaskProps>();
     const emit = defineEmits(["createTask", "editTask", "showTask"]);
 
     const store = useTasksStore();
@@ -83,11 +84,6 @@
 
     const theme: string = themeStore.theme;
 
-    const tasks = computed(
-        () => store.allTasks.filter(
-            (task: ITask) => task.group.toLowerCase() === group.toLowerCase()
-        )
-    );
     const groupName: Ref<string> = ref(group);
     const showMenu: Ref<boolean> = ref(false);
     const canEdit: Ref<boolean> = ref(false);
@@ -162,7 +158,7 @@
      .tasks {
         margin: auto;
         padding-top: 40px;
-        max-width: 70%;
+        max-width: 80%;
         display: flex;
         flex-direction: column;
         gap: 15px;

@@ -42,6 +42,7 @@
             :sub-tasks-of="task.id"
             :is-disabled="isShowTaskView"
             :is-create-task-view="isCreateTaskView"
+            :group="$route.query.group as string"
             @create-sub-task="createSubTask"
             @update-sub-task="updateSubTask"
             @delete-sub-task="deleteSubTask"
@@ -92,11 +93,10 @@
                 startDate: getCurrentDate(),
                 endDate: getCurrentDate(),
                 description: "",
-                group: route.query.group as string,
                 subTasks: []
             };
         }
-        return store.allTasks.find((item: ITask) => item.id === route.params.id);
+        return store.getTask(route.query.group, route.params.id);
     }
 
     function submit() {
@@ -107,7 +107,7 @@
     function addTask() {
         isTaskNameEmpty.value = task.value.title === "";
         if(isTaskNameEmpty.value) return;
-        store.createTask(task.value);
+        store.createTask(task.value, route.query.group);
         snackbar.setMessage("Task Created");
         router.go(-1);
     }
@@ -115,7 +115,7 @@
     function updateTask(message: string = "Task Updated") {
         isTaskNameEmpty.value = task.value.title === "";
         if(isTaskNameEmpty.value) return;
-        store.editTask(task.value);
+        store.editTask(task.value, route.query.group);
         snackbar.setMessage(message);
     }
 
